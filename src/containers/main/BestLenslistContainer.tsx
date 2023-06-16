@@ -1,70 +1,58 @@
-import BestLenslistItem from "@/components/main/BestLenslistItem";
-import React, { useState } from "react";
+import LenslistItem from "@/components/main/LenslistItem";
+import LensApi from "@/interfaces/lensApi";
+import { IBestLensItem, IBrands } from "@/types/lens/lens";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const BestLenslistStyle = styled.article`
   width: 100%;
-  height: 100%;
-  padding: 30px 26px;
   display: flex;
   flex-direction: column;
+  padding-bottom: 6px;
 
-  h3 {
+  .brand-best-name {
     width: 100%;
-    height: 30%;
-    padding: 14px 0px;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 14px 22px;
     font-size: 1.18rem;
-    @media screen and (max-width: 700px) {
-      font-size: 0.9rem;
-    }
+    @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+    font-family: "Nanum Gothic", sans-serif;
+    letter-spacing: -0.4px;
   }
 
   .brand-best-list {
     width: 100%;
-    height: 70%;
-    margin-top: 9px;
-    margin-bottom: 30px;
+    // max-height: 400px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
-    // gap: 20px;
-    @media screen and (max-width: 700px) {
-      margin: 0.5rem 0 1.3rem 0;
-    }
+    // gap: 3px;
+    padding: 0 22px;
   }
 `;
 
 interface BestLenslistContainerProps {
   period: string;
-  brand: { id: number; brand: string };
+  brand: IBrands;
 }
 
 function BestLenslistContainer({ period, brand }: BestLenslistContainerProps) {
-  const [lenslist, setLenslist] = useState([
-    {
-      id: 1,
-      name: "비비링 오렌즈",
-      price: 20000,
-      img: "https://file.o-lens.com/prd_img/20627/62637199-63ac-4773-8281-0171d432b5d7%ED%94%84%EB%A0%8C%EC%B9%98%EC%83%A4%EC%9D%B8_sum_la.jpg?w=284",
-    },
-    {
-      id: 2,
-      name: "쀼쀼링 오렌즈",
-      price: 20000,
-      img: "https://file.o-lens.com/prd_img/20627/62637199-63ac-4773-8281-0171d432b5d7%ED%94%84%EB%A0%8C%EC%B9%98%EC%83%A4%EC%9D%B8_sum_la.jpg?w=284",
-    },
-    {
-      id: 3,
-      name: "보보링 오렌즈",
-      price: 20000,
-      img: "https://file.o-lens.com/prd_img/20627/62637199-63ac-4773-8281-0171d432b5d7%ED%94%84%EB%A0%8C%EC%B9%98%EC%83%A4%EC%9D%B8_sum_la.jpg?w=284",
-    },
-  ]);
+  const [lenslist, setLenslist] = useState<IBestLensItem[] | undefined>([]);
+
+  useEffect(() => {
+    (async () => {
+      const lensApi = new LensApi();
+      const lenslistByPeriodAndBrand = await lensApi.getLenslistByPeriodAndBrand(period, brand.id);
+      setLenslist(lenslistByPeriodAndBrand);
+    })();
+  }, [period, brand.id]);
+
   return (
     <BestLenslistStyle>
-      <h3>{`${brand.brand} 베스트`}</h3>
+      <div className="brand-best-name">{`${brand.ko_name} 베스트`}</div>
       <div className="brand-best-list">
         {lenslist?.map((lens) => (
-          <BestLenslistItem key={lens.id} lens={lens} />
+          <LenslistItem key={lens.id} lens={lens} />
         ))}
       </div>
     </BestLenslistStyle>

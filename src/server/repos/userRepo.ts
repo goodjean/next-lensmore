@@ -9,6 +9,8 @@ import {
   IRegisterUserEntity,
   IUserId,
   IUserIdEntity,
+  IUserWishlist,
+  IUserWishlistEntity,
 } from "../type/user";
 
 const connection = mysql.createConnection(dbConfig);
@@ -53,6 +55,33 @@ export default class UserRepo {
       connection.query<IUserIdEntity[]>("SELECT user_id FROM user WHERE name=?", [name], (err, rows) => {
         if (err) throw err;
         resolve(rows[0]);
+      });
+    });
+  }
+
+  getUserWishlist(userId: string): Promise<IUserWishlist> {
+    return new Promise((resolve) => {
+      connection.query<IUserWishlistEntity[]>(`SELECT wishlist FROM user WHERE user_id=?`, [userId], (err, rows) => {
+        if (err) throw err;
+        resolve(rows[0]);
+      });
+    });
+  }
+
+  addToLike(wishlistIdListToJSON: string, userId: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      connection.query(`UPDATE user SET wishlist=? WHERE user_id=?`, [wishlistIdListToJSON, userId], (err, rows) => {
+        if (err) throw err;
+        resolve(true);
+      });
+    });
+  }
+
+  deleteAllWishlist(userId: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      connection.query(`UPDATE user SET wishlist=NULL WHERE user_id=?`, [userId], (err, rows) => {
+        if (err) throw err;
+        resolve(true);
       });
     });
   }

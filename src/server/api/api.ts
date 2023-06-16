@@ -1,13 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { NotFoundError } from "../errs/error";
 
-function axiosAuthInterceptor<T>(response: AxiosResponse<T>): AxiosResponse {
-  const status = response.status;
-
-  if (status === 404) {
-    throw new NotFoundError();
-  }
-  return response;
+function axiosAuthInterceptor<T>(response: AxiosResponse<T>): T {
+  return response.data;
 }
 
 const withAxios = axios.create({
@@ -17,3 +11,9 @@ const withAxios = axios.create({
 withAxios.interceptors.response.use((response) => axiosAuthInterceptor(response));
 
 export default withAxios;
+
+// const status = response.status;
+
+// if (status === 404) {
+//   throw new NotFoundError();
+// }
