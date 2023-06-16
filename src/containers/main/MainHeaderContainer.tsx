@@ -1,38 +1,38 @@
 import MainDaysBar from "@/components/main/MainDaysBar";
 import Link from "next/link";
-import { FiFilter, FiSearch, FiMenu } from "react-icons/fi";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { IoSearchOutline, IoFilterOutline } from "react-icons/io5";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
+import LensApi from "@/interfaces/lensApi";
+import { IDays } from "@/types/lens/lens";
 
 const MainHeaderContainerStyle = styled.header`
   background-color: white;
   width: 100%;
-  height: 20%;
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #e8e8e8;
+  z-index: 1000;
+  // padding-top: 10px;
 
   h1 {
-    @import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
-    font-family: "PT Sans", sans-serif;
+    @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+    font-family: "Nanum Gothic", sans-serif;
     color: #505050;
     font-weight: normal;
-    font-size: 2.2rem;
+    font-size: 1.95rem;
     padding-left: 8px;
-    @media screen and (max-width: 700px) {
-      font-size: 1.6rem;
-    }
+    margin: 0.57em 0px 18.5px 0;
   }
 
   .main-header-upper {
     width: 100%;
-    height: 60%;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 20px;
+    padding: 1px 18px;
     flex-wrap: wrap;
   }
 
@@ -41,24 +41,25 @@ const MainHeaderContainerStyle = styled.header`
   }
 
   nav {
-    padding: 0.5rem;
-    @media screen and (max-width: 700px) {
-      padding: 0.18rem;
+    padding: 0.3rem 0 0.3rem 0.3rem;
+
+    .link-icon {
+      padding: 0 7px;
     }
   }
 
   .main-header-down {
     width: 100%;
-    height: 40%;
   }
 
   .days-list {
     width: 100%;
-    height: 100%;
     display: flex;
     justify-content: space-around;
     list-style: none;
     flex-wrap: wrap;
+    @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+    font-family: "Nanum Gothic", sans-serif;
   }
 `;
 
@@ -68,11 +69,15 @@ interface MainHeaderContainerProps {
 }
 
 function MainHeaderContainer({ period, setPeriod }: MainHeaderContainerProps) {
-  const [days, setDays] = useState([
-    { id: 1, period: "원데이", en: "oneday" },
-    { id: 2, period: "2주/한달착용", en: "weekly-monthly" },
-    { id: 3, period: "장기착용", en: "long-term" },
-  ]);
+  const [days, setDays] = useState<IDays[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const lensApi = new LensApi();
+      const dayList = await lensApi.getLensDayList();
+      setDays(dayList);
+    })();
+  }, []);
 
   return (
     <MainHeaderContainerStyle>
@@ -84,18 +89,11 @@ function MainHeaderContainer({ period, setPeriod }: MainHeaderContainerProps) {
         </div>
         <div className="main-feature">
           <nav>
-            <Link href="/filter">
-              <FiFilter size={28} color="#6e6e6e" />
+            <Link href="/filter" className="link-icon">
+              <IoFilterOutline size={29} color="#6e6e6e" />
             </Link>
-          </nav>
-          <nav>
-            <Link href="/search">
-              <FiSearch size={28} color="#6e6e6e" />
-            </Link>
-          </nav>
-          <nav>
-            <Link href="/menu">
-              <FiMenu size={28} color="#6e6e6e" />
+            <Link href="/search" className="link-icon">
+              <IoSearchOutline size={29} color="#6e6e6e" />
             </Link>
           </nav>
         </div>

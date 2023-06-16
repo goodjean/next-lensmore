@@ -4,6 +4,7 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import AppLayout from "@/components/layout/AppLayout";
 import GlobalStyle from "@/components/layout/GlobalStyle";
+import FooterNavContainer from "@/containers/global/FooterNavContainer";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <AppLayout>
           <Component {...pageProps} />
+          <FooterNavContainer />
         </AppLayout>
       </SessionProvider>
     </>
