@@ -1,15 +1,20 @@
 import React from "react";
 import BestLenslistContainer from "./BestLenslistContainer";
 import styled from "styled-components";
+import { IBrands } from "@/types/lens/lens";
 
 const MainBestLensStyle = styled.section`
   width: 100%;
-  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-top: 15px;
+  gap: 10px;
 `;
 
 interface MainBestLensProps {
   period: string;
-  brands: { id: number; brand: string }[];
+  brands: IBrands[];
 }
 
 function MainBestLensByBrandContainer({ period, brands }: MainBestLensProps) {

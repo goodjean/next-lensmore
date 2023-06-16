@@ -48,3 +48,11 @@ export interface IUserIdEntity extends RowDataPacket {
 export interface IUserId {
   user_id: string;
 }
+
+export interface IUserWishlist {
+  wishlist: string;
+}
+
+export interface IUserWishlistEntity extends RowDataPacket {
+  wishlist: string;
+}
