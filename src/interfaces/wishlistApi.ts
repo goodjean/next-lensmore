@@ -1,24 +1,19 @@
-import { IBestLensItem } from "@/types/lens/lens";
+import { IAddLike, IBestLensItem } from "@/types/lens/lens";
 import axios from "axios";
 
 export default class WishlistApi {
-  async getLensWishList(userId: string): Promise<IBestLensItem[]> {
-    const res = await axios.get(`/api/wishlist/${userId}`);
+  async getWishList(): Promise<IBestLensItem[]> {
+    const res = await axios.get(`/api/wishlist/wishListIds`);
     return res.data.result;
   }
 
-  async getWishListId(userId: string): Promise<number[]> {
-    const res = await axios.get(`/api/wishlist/wishListIds?userid=${userId}`);
+  async addLike(lensId: number): Promise<boolean> {
+    const res = await axios.post(`/api/wishlist/bookmark`, { lensId });
     return res.data.result;
   }
 
-  async addToLike(userId: string, lensId: number): Promise<number[]> {
-    const res = await axios.post(`/api/wishlist/bookmark`, { userId, lensId });
-    return res.data.result;
-  }
-
-  async deleteAllWishlist(userId: string): Promise<boolean> {
-    const res = await axios.post(`/api/wishlist/delete-wishlist`, { userId });
+  async deleteAllWishlist(): Promise<boolean> {
+    const res = await axios.post(`/api/wishlist/delete-wishlist`);
     return res.data.result;
   }
 }

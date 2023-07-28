@@ -21,7 +21,7 @@ function WishListPage() {
       (async () => {
         const wishlistApi = new WishlistApi();
         if (session.user?.email) {
-          const wishlist = await wishlistApi.getLensWishList(session.user?.email);
+          const wishlist = await wishlistApi.getWishList();
           setLenslist(wishlist);
         }
       })();
@@ -33,7 +33,7 @@ function WishListPage() {
       <BackHomeNavBar title="WishList" />
       {status === "authenticated" ? (
         <>
-          <WishListContainer lenslist={lenslist} />
+          <WishListContainer lenslist={lenslist} setLenslist={setLenslist} />
         </>
       ) : (
         <>
