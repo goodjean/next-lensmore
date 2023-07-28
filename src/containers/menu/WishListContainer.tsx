@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { BsInbox } from "react-icons/bs";
 import LenslistItem from "@/components/main/LenslistItem";
 import { useSession } from "next-auth/react";
 import WishlistApi from "@/interfaces/wishlistApi";
+import { IBestLensItem } from "@/types/lens/lens";
 
 const WishListContainerStyle = styled.div`
   width: 100%;
@@ -69,20 +70,19 @@ const WishListContainerStyle = styled.div`
 `;
 
 interface WishListContainerProps {
-  lenslist: { id: number; name: string; price: number; img: string; reviewcount: number }[];
+  lenslist: IBestLensItem[];
+  setLenslist: Dispatch<SetStateAction<IBestLensItem[]>>;
 }
 
-function WishListContainer({ lenslist }: WishListContainerProps) {
+function WishListContainer({ lenslist, setLenslist }: WishListContainerProps) {
   const { data: session, status } = useSession();
 
   async function deleteAllWishList() {
     const wishlistApi = new WishlistApi();
     if (session?.user?.email) {
-      const result = await wishlistApi.deleteAllWishlist(session.user?.email);
+      const result = await wishlistApi.deleteAllWishlist();
       if (result) {
-        ("삭제됨");
-      } else {
-        ("실패함");
+        setLenslist([]);
       }
     }
   }

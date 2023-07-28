@@ -83,3 +83,8 @@ export interface IHotkeyword {
   name: string;
   reviewcount: number;
 }
+export interface IAddLike {
+  id: number;
+  user_id: string;
+  like_id: number;
+}
