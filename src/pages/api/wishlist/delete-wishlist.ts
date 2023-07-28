@@ -1,6 +1,7 @@
 import WishlistService from "@/server/services/wishlistService";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 
 type Data = {
   result: boolean;
@@ -8,8 +9,10 @@ type Data = {
 
 export default async function deleteAllWishlist(req: NextApiRequest, res: NextApiResponse<Data>) {
   const wishlistService = new WishlistService();
-  const { userId } = req.body;
+  const session = await getSession({ req });
+  const userId = session?.user?.email;
+  const userIdStr = String(userId);
 
-  const result = await wishlistService.deleteAllWishlist(userId);
+  const result = await wishlistService.deleteAllWishlist(userIdStr);
   res.status(200).json({ result });
 }

@@ -28,8 +28,8 @@ function HeartItem({ lensId }: HeartItemProps) {
     (async () => {
       const wishlistApi = new WishlistApi();
       if (session?.user?.email) {
-        const wishlist = await wishlistApi.getWishListId(session?.user?.email);
-        if (wishlist.some((id) => id === lensId)) {
+        const wishlist = await wishlistApi.getWishList();
+        if (wishlist.some((item) => item.id === lensId)) {
           setState(true);
         } else {
           setState(false);
@@ -51,9 +51,8 @@ function HeartItem({ lensId }: HeartItemProps) {
         // 로그인이 되어있다면 서버로 wishlist id 추가 or 삭제 가능하고 그에 대한 wishlistid 목록 가져와서 잇는지 없는지 비교
         const wishlistApi = new WishlistApi();
         if (session.user?.email) {
-          const wishlistIds = await wishlistApi.addToLike(session.user?.email, lensId);
-          setState(wishlistIds.includes(lensId));
-          console.log(wishlistIds);
+          const result = await wishlistApi.addLike(lensId);
+          setState(result);
         }
       }
     }
