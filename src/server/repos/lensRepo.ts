@@ -13,8 +13,8 @@ import {
 import { IPromotion, IPromotionEntity } from "../type/promotion";
 import { IHotKeywordEntity, IHotkeyword } from "../type/search";
 
-const connection = mysql.createConnection(dbConfig);
-
+const connection = mysql.createConnection(dbConfig); // 따로 파일 파기 //싱글톤
+// mysql connection 싱글톤 // 구린 찜  알람 메세지 바꾸기 // 도커 vm
 export default class LensRepo {
   convertLensDetailPageEntityToDomainModel(lensDetailPageEntity: ILensDetailEntity[]): ILensDetail[] {
     return lensDetailPageEntity.map((ld) => ({
