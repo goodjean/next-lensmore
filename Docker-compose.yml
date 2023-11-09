@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  nextjs:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=Op78520123!
+      - DB_DATABASE=crawler_test
+    depends_on:
+      - mysql
+    networks:
+      - our-net
+    volumes:
+      - shared-volume:/usr/src/app
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: Op78520123!
+      MYSQL_DATABASE: crawler_test
+    ports:
+      - "3307:3306"
+    networks:
+      - our-net
+    volumes:
+      - shared-volume:/usr/src/app
+
+volumes:
+  shared-volume:
+networks:
+  our-net:
+    external: true
