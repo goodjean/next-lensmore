@@ -7,11 +7,11 @@ const AppLayoutStyle = styled.div`
   display: flex;
   justify-content: center;
 
-  .inner-wrap {
-    max-width: 680px;
-    width: 75%;
+  .app-template {
+    max-width: 650px;
+    width: 100%;
     height: 100%;
-    // border: 1px solid black;
+    border: 1px solid #e8e8e8;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,7 +25,7 @@ interface AppLayoutProps {
 function AppLayout({ children }: AppLayoutProps) {
   return (
     <AppLayoutStyle>
-      <div className="inner-wrap">{children}</div>
+      <div className="app-template">{children}</div>
     </AppLayoutStyle>
   );
 }

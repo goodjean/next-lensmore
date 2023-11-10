@@ -1,44 +1,45 @@
+import { IPromotion } from "@/types/lens/lens";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 
 const PromotionItemStyle = styled.div`
   width: 100%;
-  // height: 40%;
-  height: 800px;
-  padding: 26px;
-  @media screen and (max-width: 700px) {
-    height: 40%;
-  }
+  max-width: 650px;
+  padding: 21px 19px 24px 19px;
 
   .promotion-img-box {
     width: 100%;
-    height: 100%;
+    height: 740px;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+      height: 500px;
+    }
   }
 
   .loading-img {
     width: 100%;
-    height: 100%;
     border-radius: 13px;
   }
 
   .promotion-img {
     width: 100%;
     height: 100%;
-    border-radius: 13px;
+    max-height: 740px;
+    border-radius: 8px;
   }
 `;
 
 interface PromotionItemProps {
-  promotion: { id: number; name: string; model_thumbnail: string; period_classifi: string };
+  promotion: IPromotion | undefined;
 }
 
 function PromotionItem({ promotion }: PromotionItemProps) {
   const router = useRouter();
 
   function clickImg() {
-    // router.push(`/product/detail/${promotion?.id}`);
+    router.push(`/product/${promotion?.id}`);
   }
 
   return (

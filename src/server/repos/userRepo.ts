@@ -1,4 +1,4 @@
-import mysql, { OkPacket, RowDataPacket } from "mysql2";
+import mysql from "mysql2";
 import dbConfig from "../../configs/db";
 import {
   IFoundUser,

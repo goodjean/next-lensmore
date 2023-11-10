@@ -1,12 +1,24 @@
-import FirstMenuCateContainer from "@/containers/menu/FirstMenuCateContainer";
-import React from "react";
+// import React from "react";
+// import FirstMenuCateContainer from "@/containers/menu/FirstMenuCateContainer";
+// import styled from "styled-components";
+// import BackHomeNavBar from "@/components/menu/BackHomeNavBar";
+// import SecondMenuCateContainer from "@/containers/menu/SecondMenuCateContainer";
 
-function MenuPage() {
-  return (
-    <div>
-      <FirstMenuCateContainer />
-    </div>
-  );
-}
+// const MenuPageStyle = styled.section`
+//   width: 100%;
+//   height: 100vh;
+// `;
 
-export default MenuPage;
+// function MenuPage() {
+//   return (
+//     <>
+//       <BackHomeNavBar title="Menu" />
+//       <MenuPageStyle>
+//         <FirstMenuCateContainer />
+//         <SecondMenuCateContainer />
+//       </MenuPageStyle>
+//     </>
+//   );
+// }
+
+// export default MenuPage;

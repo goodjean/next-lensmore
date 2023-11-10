@@ -1,15 +1,22 @@
 import MainBestLensByBrandContainer from "@/containers/main/MainBestLensByBrandContainer";
 import MainHeaderContainer from "@/containers/main/MainHeaderContainer";
 import MainPromotionContainer from "@/containers/main/MainPromotionContainer";
-import { useState } from "react";
+import LensApi from "@/interfaces/lensApi";
+import { IBrands } from "@/types/lens/lens";
+// import LensApi from "@/interfaces/lensApi";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [period, setPeriod] = useState<string>("oneday");
-  const [brands, setBrands] = useState([
-    { id: 1, brand: "오렌즈" },
-    { id: 2, brand: "렌즈미" },
-    { id: 3, brand: "렌즈타운" },
-  ]);
+  const [brands, setBrands] = useState<IBrands[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const lensApi = new LensApi();
+      const brandList = await lensApi.getLensBrandList();
+      setBrands(brandList);
+    })();
+  }, []);
 
   return (
     <>
