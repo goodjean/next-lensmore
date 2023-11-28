@@ -14,7 +14,7 @@ create table if not exists crawler_test.colors
 (
     id    int auto_increment
         primary key,
-    color varchar(10) not null
+    color varchar(20) not null
 );
 
 create table if not exists crawler_test.days
@@ -22,7 +22,7 @@ create table if not exists crawler_test.days
     id int auto_increment
         primary key,
     en varchar(30) not null,
-    ko varchar(10) not null
+    ko varchar(150) not null
 );
 
 create table if not exists crawler_test.lens
@@ -30,8 +30,8 @@ create table if not exists crawler_test.lens
     id              int auto_increment
         primary key,
     ref_id          int          not null,
-    name            varchar(50)  not null,
-    color           varchar(20)  not null,
+    name            varchar(100)  not null,
+    color           varchar(80)  not null,
     color_id        int          not null,
     color_img       varchar(512) null,
     price           int          not null,
@@ -40,8 +40,8 @@ create table if not exists crawler_test.lens
     detail_img      varchar(512) null,
     eye_thumbnail   varchar(512) not null,
     model_thumbnail varchar(512) null,
-    period varchar (20) not null,
-    period_classifi varchar(20)  not null,
+    period varchar (30) not null,
+    period_classifi varchar(30)  not null,
     reviewcount     varchar(10)  not null,
     page_url        varchar(512) not null,
     brand_id        int          not null

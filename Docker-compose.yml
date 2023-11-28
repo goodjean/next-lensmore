@@ -28,7 +28,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - our-net
     volumes:
