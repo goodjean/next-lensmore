@@ -1,5 +1,5 @@
 import { IBestLensItem, IHotkeyword, IPromotion } from "@/types/lens/lens";
-import axios from "axios";
+import axios from "@/server/api/axios";
 
 export default class SearchApi {
   async getHotSearchKeywords(): Promise<IHotkeyword[]> {

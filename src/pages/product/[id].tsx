@@ -4,7 +4,7 @@ import BackHomeNavBar from "@/components/menu/BackHomeNavBar";
 import LensApi from "@/interfaces/lensApi";
 import { ILensDetail } from "@/types/lens/lens";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const EmptyBox = styled.div`
@@ -12,23 +12,29 @@ const EmptyBox = styled.div`
   margin-top: 100px;
 `;
 
-function DetailPage() {
+interface DetailPageProps {
+  lensDetail: ILensDetail | undefined;
+}
+
+interface DetailParamsProps {
+  params: {
+    id: number;
+  };
+}
+
+function DetailPage({ lensDetail }: DetailPageProps) {
   const router = useRouter();
-  const { id } = router.query;
-  const idToNum = Number(id);
-  const [lensDetail, setLensDetail] = useState<ILensDetail | undefined>();
+  // const { id } = router.query;
+  // const idToNum = Number(id);
+  // const [lensDetail, setLensDetail] = useState<ILensDetail | undefined>();
 
-  if (!id) {
-    throw "no id";
-  }
-
-  useEffect(() => {
-    (async () => {
-      const lensApi = new LensApi();
-      const lensDetail = await lensApi.getLensDetailById(idToNum);
-      setLensDetail(lensDetail);
-    })();
-  }, [id]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const lensApi = new LensApi();
+  //     const lensDetail = await lensApi.getLensDetailById(id);
+  //     setLensDetail(lensDetail);
+  //   })();
+  // }, [id]);
 
   return (
     <>
@@ -43,6 +49,16 @@ function DetailPage() {
       )}
     </>
   );
+}
+
+export async function getServerSideProps({ params }: DetailParamsProps) {
+  const { id } = params;
+  const lensApi = new LensApi();
+  const lensDetail = await lensApi.getLensDetailById(id);
+  console.log("----lensDetail=======", lensDetail);
+  return {
+    props: { lensDetail },
+  };
 }
 
 export default DetailPage;

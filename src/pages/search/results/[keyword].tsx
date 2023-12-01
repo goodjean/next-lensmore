@@ -14,12 +14,23 @@ const SearchResultPageStyle = styled.div`
   flex-direction: column;
 `;
 
-function SearchResultPage() {
+interface SearchParamsProps {
+  params: {
+    keyword: string;
+  };
+}
+
+interface SearchResultPageProps {
+  listCount: number;
+  keyword: string;
+}
+
+function SearchResultPage({ listCount, keyword }: SearchResultPageProps) {
   const router = useRouter();
-  const { keyword } = router.query;
+  // const { keyword } = router.query;
   const [limit, setLimit] = useState<number>(9);
   const [page, setPage] = useState<number>(1);
-  const [listCount, setListCount] = useState<number>(0);
+  // const [listCount, setListCount] = useState<number>(0);
   const [blockNum, setBlockNum] = useState(0);
   const [lensItemsByKeyword, setLensItemsByKeyword] = useState<IBestLensItem[]>([]);
 
@@ -31,13 +42,13 @@ function SearchResultPage() {
     })();
   }, [keyword, page, limit]);
 
-  useEffect(() => {
-    (async () => {
-      const searchApi = new SearchApi();
-      const resultsCount = await searchApi.getLensAllCountByKeyword(String(keyword));
-      setListCount(resultsCount);
-    })();
-  }, [keyword]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const searchApi = new SearchApi();
+  //     const resultsCount = await searchApi.getLensAllCountByKeyword(String(keyword));
+  //     setListCount(resultsCount);
+  //   })();
+  // }, [keyword]);
 
   return (
     <>
@@ -55,6 +66,20 @@ function SearchResultPage() {
       </SearchResultPageStyle>
     </>
   );
+}
+
+export async function getServerSideProps({ params }: SearchParamsProps) {
+  const { keyword } = params;
+  console.log("-------keyword: ", keyword);
+  const searchApi = new SearchApi();
+  const listCount = await searchApi.getLensAllCountByKeyword(keyword);
+
+  return {
+    props: {
+      listCount,
+      keyword,
+    },
+  };
 }
 
 export default SearchResultPage;

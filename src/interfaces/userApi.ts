@@ -1,6 +1,6 @@
-import withAxios from "@/server/api/api";
+import axios from "@/server/api/axios";
 import { ICommonResponse } from "@/server/errs/erro";
-import axios from "axios";
+// import axios from "axios";
 
 export default class UserApi {
   async registerUser(
@@ -13,13 +13,13 @@ export default class UserApi {
   }
 
   async login(id: string | undefined, pw: string | undefined): Promise<ICommonResponse> {
-    const res = await axios.post("http://localhost:3000/api/auth/login", { id, pw });
+    const res = await axios.post("/api/auth/login", { id, pw });
     return res.data.result;
   }
 
   async getUserId(name: string | undefined | null) {
     try {
-      const res = await withAxios({
+      const res = await axios({
         method: "post",
         url: "/auth/mypage",
         data: {

@@ -17,7 +17,7 @@ const FilterResultPageStyle = styled.div`
 function ResultsPage() {
   const router = useRouter();
   const { params } = router.query;
-  const state = JSON.parse(JSON.parse(JSON.stringify(params)));
+  const state = JSON.parse(JSON.parse(JSON.stringify(params)) || "{}"); // 임시방편
 
   const [limit, setLimit] = useState<number>(9);
   const [page, setPage] = useState<number>(1);

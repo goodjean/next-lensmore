@@ -12,18 +12,28 @@ const LensByPeriodPageStyle = styled.div`
   min-height: 100vh;
 `;
 
-function LensByPeriodPage() {
+interface LensByPeriodPageProps {
+  period: string;
+}
+
+interface PeriodParamsProps {
+  params: {
+    period: string;
+  };
+}
+
+function LensByPeriodPage({ period }: LensByPeriodPageProps) {
   const router = useRouter();
-  const { period } = router.query;
+  // const { period } = router.query;
   const [limit, setLimit] = useState<number>(9);
   const [page, setPage] = useState<number>(1);
   const [listCount, setListCount] = useState<number>(0);
   const [blockNum, setBlockNum] = useState(0);
   const [lensList, setLensList] = useState<IBestLensItem[]>([]);
 
-  if (!period || typeof period !== "string") {
-    throw "error";
-  }
+  // if (!period || typeof period !== "string") {
+  //   throw "error";
+  // }
 
   useEffect(() => {
     (async () => {
@@ -58,6 +68,22 @@ function LensByPeriodPage() {
       </LensByPeriodPageStyle>
     </>
   );
+}
+
+export async function getServerSideProps({ params }: PeriodParamsProps) {
+  const { period } = params;
+
+  if (!period) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      period,
+    },
+  };
 }
 
 export default LensByPeriodPage;

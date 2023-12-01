@@ -1,18 +1,10 @@
-import withAxios from "@/server/api/api";
+import axios from "@/server/api/axios";
 import { IBrands, IDays, IBestLensItem, ILensDetail } from "@/types/lens/lens";
-import axios from "axios";
+// import axios from "axios";
 
 export default class LensApi {
   async getLensBrandList(): Promise<IBrands[]> {
-    const res = await axios.get(`http://localhost:3000/api/lens/brands`);
-
-    // const res = await withAxios({
-    //   method: "get",
-    //   url: "/lens/brands",
-    // });
-
-    // return res.result
-
+    const res = await axios.get(`/api/lens/brands`); //주의 ssr
     return res.data.result;
   }
 
