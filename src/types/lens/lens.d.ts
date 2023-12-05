@@ -60,6 +60,11 @@ export interface IBestLensItem {
   reviewcount: number;
 }
 
+export interface ILensItemAndCountResult {
+  lensItems: IBestLensItem[];
+  totalCount: number;
+}
+
 export interface ILensDetail {
   id: number;
   name: string;

@@ -1,5 +1,5 @@
 import LensRepo from "../repos/lensRepo";
-import { IBrands, IDays, IBestLensItem, ILensDetail } from "../type/lens";
+import { IBrands, IDays, IBestLensItem, ILensDetail, ILensItemAndCountResult } from "../type/lens";
 
 export default class LensService {
   lensRepo = new LensRepo();
@@ -27,8 +27,12 @@ export default class LensService {
     return product;
   }
 
-  async getLenslistByPeriodByOffset(period: string, page: number, limit: number): Promise<IBestLensItem[]> {
-    return await this.lensRepo.getLenslistByPeriodByOffset(period, page, limit);
+  async getListCountAndLenslistByPeriodByOffset(
+    period: string,
+    page: number,
+    limit: number
+  ): Promise<ILensItemAndCountResult> {
+    return await this.lensRepo.getListCountAndLenslistByPeriodByOffset(period, page, limit);
   }
 
   async getLenslistByPeriod(period: string): Promise<number> {

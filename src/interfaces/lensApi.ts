@@ -1,5 +1,5 @@
 import axios from "@/server/api/axios";
-import { IBrands, IDays, IBestLensItem, ILensDetail } from "@/types/lens/lens";
+import { IBrands, IDays, IBestLensItem, ILensDetail, ILensItemAndCountResult } from "@/types/lens/lens";
 // import axios from "axios";
 
 export default class LensApi {
@@ -23,7 +23,11 @@ export default class LensApi {
     return res.data.result;
   }
 
-  async getLenslistByPeriodByOffset(period: string, page: number, limit: number): Promise<IBestLensItem[]> {
+  async getListCountAndLenslistByPeriodByOffset(
+    period: string,
+    page: number,
+    limit: number
+  ): Promise<ILensItemAndCountResult> {
     const res = await axios.get(`/api/lens/results?period=${period}&page=${page}&limit=${limit}`);
     return res.data.result;
   }

@@ -1,6 +1,6 @@
-import PaginationItem from "@/components/layout/PaginationItem";
+import PaginationItemForFilter from "@/components/layout/PaginationItemForFilter";
 import { useRouter } from "next/router";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const PaginationListStyle = styled.nav`
@@ -24,11 +24,10 @@ interface PaginationListProps {
   page: number;
   blockNum: number;
   listCount: number;
-  keyword: string;
   path: string;
 }
 
-function PaginationList({ limit, page, blockNum, listCount, keyword, path }: PaginationListProps) {
+function PaginationListForFilter({ limit, page, blockNum, listCount, path }: PaginationListProps) {
   const router = useRouter();
   const listCountArr = Array.from({ length: listCount }, (v, i) => ++i);
 
@@ -45,11 +44,11 @@ function PaginationList({ limit, page, blockNum, listCount, keyword, path }: Pag
   }
 
   function firstPage() {
-    router.push(`${keyword}?page=${1}`);
+    router.push(`?params=${path}&page=${1}`);
   }
 
   function lastPage() {
-    router.push(`${keyword}?page=${totalPage}`);
+    router.push(`?params=${path}&page=${totalPage}`);
   }
 
   function prevPage() {
@@ -59,7 +58,7 @@ function PaginationList({ limit, page, blockNum, listCount, keyword, path }: Pag
     if (page - 1 <= pageLimit * blockNum) {
     }
 
-    router.push(`${keyword}?page=${page - 1}`);
+    router.push(`?params=${path}&page=${page - 1}`);
   }
 
   function nextPage() {
@@ -69,7 +68,7 @@ function PaginationList({ limit, page, blockNum, listCount, keyword, path }: Pag
     if (pageLimit * (blockNum + 1) < page + 1) {
     }
 
-    router.push(`${keyword}?page=${page + 1}`);
+    router.push(`?params=${path}&page=${page + 1}`);
   }
 
   return (
@@ -81,13 +80,7 @@ function PaginationList({ limit, page, blockNum, listCount, keyword, path }: Pag
         {"<"}
       </button>
       {PArr?.map((pageNum: number) => (
-        <PaginationItem
-          key={pageNum}
-          pageNum={pageNum}
-          keyword={keyword}
-          path={path}
-          state={page === pageNum ? "on" : ""}
-        />
+        <PaginationItemForFilter key={pageNum} pageNum={pageNum} path={path} state={page === pageNum ? "on" : ""} />
       ))}
       <button className="arr-btn" onClick={nextPage} disabled={page === totalPage || PArr.length === 0}>
         {">"}
@@ -99,4 +92,4 @@ function PaginationList({ limit, page, blockNum, listCount, keyword, path }: Pag
   );
 }
 
-export default PaginationList;
+export default PaginationListForFilter;

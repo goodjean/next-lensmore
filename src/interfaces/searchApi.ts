@@ -1,4 +1,4 @@
-import { IBestLensItem, IHotkeyword, IPromotion } from "@/types/lens/lens";
+import { IBestLensItem, IHotkeyword, ILensItemAndCountResult, IPromotion } from "@/types/lens/lens";
 import axios from "@/server/api/axios";
 
 export default class SearchApi {
@@ -7,7 +7,11 @@ export default class SearchApi {
     return res.data.result;
   }
 
-  async getLensitemListByKeywordByOffset(name: string, page: number, limit: number): Promise<IBestLensItem[]> {
+  async getListCountAndLensitemListByKeywordByOffset(
+    name: string,
+    page: number,
+    limit: number
+  ): Promise<ILensItemAndCountResult> {
     const res = await axios.get(`/api/search/results?name=${name}&page=${page}&limit=${limit}`);
     return res.data.result;
   }

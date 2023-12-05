@@ -43,7 +43,6 @@ function HeartItem({ lensId }: HeartItemProps) {
   async function clickHeart() {
     //로그인 되어 있는지 체크
     if (status === "unauthenticated") {
-      alert("로그인이 필요합니다");
       router.replace("/auth/signin");
     } else {
       //되어있다면

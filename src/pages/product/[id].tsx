@@ -24,17 +24,6 @@ interface DetailParamsProps {
 
 function DetailPage({ lensDetail }: DetailPageProps) {
   const router = useRouter();
-  // const { id } = router.query;
-  // const idToNum = Number(id);
-  // const [lensDetail, setLensDetail] = useState<ILensDetail | undefined>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const lensApi = new LensApi();
-  //     const lensDetail = await lensApi.getLensDetailById(id);
-  //     setLensDetail(lensDetail);
-  //   })();
-  // }, [id]);
 
   return (
     <>
@@ -55,7 +44,6 @@ export async function getServerSideProps({ params }: DetailParamsProps) {
   const { id } = params;
   const lensApi = new LensApi();
   const lensDetail = await lensApi.getLensDetailById(id);
-  console.log("----lensDetail=======", lensDetail);
   return {
     props: { lensDetail },
   };

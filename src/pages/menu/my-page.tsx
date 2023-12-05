@@ -83,10 +83,8 @@ function Mypage() {
   if (status === "unauthenticated") {
     console.log(status);
     router.replace("/auth/signin");
-    alert("로그인이 되어있지 않습니다.");
+    // alert("로그인이 되어있지 않습니다.");
   }
-
-  console.log(userId);
 
   return (
     <>

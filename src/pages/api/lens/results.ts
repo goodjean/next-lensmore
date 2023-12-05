@@ -1,18 +1,18 @@
 import LensService from "@/server/services/lensService";
-import { IBestLensItem, IBrands } from "@/server/type/lens";
+import { ILensItemAndCountResult } from "@/server/type/lens";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  result: IBestLensItem[];
+  result: ILensItemAndCountResult;
 };
 
-export default async function getLenslistByPeriodByOffset(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function getListCountAndLenslistByPeriodByOffset(req: NextApiRequest, res: NextApiResponse<Data>) {
   const lensService = new LensService();
   const { period, page, limit } = req.query;
   const periodStr = String(period);
   const pageNum = Number(page);
   const limitNum = Number(limit);
 
-  const result = await lensService.getLenslistByPeriodByOffset(periodStr, pageNum, limitNum);
+  const result = await lensService.getListCountAndLenslistByPeriodByOffset(periodStr, pageNum, limitNum);
   res.status(200).json({ result });
 }

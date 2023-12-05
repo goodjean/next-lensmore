@@ -1,9 +1,9 @@
 import FilterService from "@/server/services/filterService";
-import { IBestLensItem } from "@/server/type/lens";
+import { IBestLensItem, ILensItemAndCountResult } from "@/server/type/lens";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  result: IBestLensItem[];
+  result: ILensItemAndCountResult;
 };
 
 interface FilterQuery {
@@ -16,7 +16,7 @@ interface FilterQuery {
   limit: number;
 }
 
-export default async function getFilteredLensListByOffset(
+export default async function getListCountAndFilteredLensListByOffset(
   req: NextApiRequest & { query: FilterQuery },
   res: NextApiResponse<Data>
 ) {
@@ -35,7 +35,7 @@ export default async function getFilteredLensListByOffset(
   const pageNum = Number(page);
   const limitNum = Number(limit);
 
-  const result = await filterService.getFilteredLensListByOffset(
+  const result = await filterService.getListCountAndFilteredLensListByOffset(
     periodParse,
     colorParse,
     graphicParse,

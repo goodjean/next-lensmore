@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import styled from "styled-components";
 
-const PaginationItemStyle = styled.div`
+const PaginationItemForFilterStyle = styled.div`
   width: 10%;
   padding: 10px;
   text-align: center;
@@ -26,18 +26,17 @@ const PaginationItemStyle = styled.div`
 
 interface PaginationItemProps {
   pageNum: number;
-  keyword: string;
   path: string;
   state: string;
 }
 
-function PaginationItem({ pageNum, keyword, path, state }: PaginationItemProps) {
+function PaginationItemForFilter({ pageNum, path, state }: PaginationItemProps) {
   const router = useRouter();
   return (
-    <PaginationItemStyle onClick={() => router.push(`${keyword}?page=${pageNum}`)}>
+    <PaginationItemForFilterStyle onClick={() => router.push(`?params=${path}&page=${pageNum}`)}>
       <span className={state}>{pageNum}</span>
-    </PaginationItemStyle>
+    </PaginationItemForFilterStyle>
   );
 }
 
-export default PaginationItem;
+export default PaginationItemForFilter;

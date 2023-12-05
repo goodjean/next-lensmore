@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import BackHomeNavBar from "@/components/menu/BackHomeNavBar";
 import LensResultListContainer from "@/containers/global/LensResultListContainer";
 import SearchApi from "@/interfaces/searchApi";
 import { IBestLensItem } from "@/types/lens/lens";
 import styled from "styled-components";
 import PaginationList from "@/containers/global/PaginationList";
+import { GetServerSidePropsContext } from "next";
 
 const SearchResultPageStyle = styled.div`
   width: 100%;
@@ -14,70 +14,61 @@ const SearchResultPageStyle = styled.div`
   flex-direction: column;
 `;
 
-interface SearchParamsProps {
-  params: {
-    keyword: string;
-  };
-}
-
 interface SearchResultPageProps {
+  lensItemsByKeyword: IBestLensItem[];
   listCount: number;
   keyword: string;
+  pageNum: number;
+  path: string;
+  blockNum: number;
 }
 
-function SearchResultPage({ listCount, keyword }: SearchResultPageProps) {
-  const router = useRouter();
-  // const { keyword } = router.query;
-  const [limit, setLimit] = useState<number>(9);
-  const [page, setPage] = useState<number>(1);
-  // const [listCount, setListCount] = useState<number>(0);
-  const [blockNum, setBlockNum] = useState(0);
-  const [lensItemsByKeyword, setLensItemsByKeyword] = useState<IBestLensItem[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const searchApi = new SearchApi();
-      const lensItems = await searchApi.getLensitemListByKeywordByOffset(String(keyword), page, limit);
-      setLensItemsByKeyword(lensItems);
-    })();
-  }, [keyword, page, limit]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const searchApi = new SearchApi();
-  //     const resultsCount = await searchApi.getLensAllCountByKeyword(String(keyword));
-  //     setListCount(resultsCount);
-  //   })();
-  // }, [keyword]);
-
+function SearchResultPage({ lensItemsByKeyword, listCount, keyword, pageNum, path, blockNum }: SearchResultPageProps) {
   return (
     <>
       <BackHomeNavBar title="result" />
       <SearchResultPageStyle>
         <LensResultListContainer lensList={lensItemsByKeyword} listCount={listCount} />
         <PaginationList
-          limit={limit}
-          page={page}
-          setPage={setPage}
+          limit={9}
+          page={pageNum}
           blockNum={blockNum}
-          setBlockNum={setBlockNum}
           listCount={listCount}
+          keyword={String(keyword)}
+          path={path}
         />
       </SearchResultPageStyle>
     </>
   );
 }
 
-export async function getServerSideProps({ params }: SearchParamsProps) {
-  const { keyword } = params;
-  console.log("-------keyword: ", keyword);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { keyword, page } = context.query;
+  const fullUrl = String(context.req.url);
+  const idx = fullUrl.indexOf("%");
+  const path = fullUrl.substring(0, idx);
+  console.log("========", path);
+  const pageStr = String(page);
+  const pageNum = parseInt(pageStr, 10) || 1;
+  const blockNum = Math.floor((pageNum - 1) / 3);
+
   const searchApi = new SearchApi();
-  const listCount = await searchApi.getLensAllCountByKeyword(keyword);
+  const lensItemsAndListCount = await searchApi.getListCountAndLensitemListByKeywordByOffset(
+    String(keyword),
+    pageNum,
+    9
+  );
+  const lensItemsByKeyword = lensItemsAndListCount.lensItems;
+  const listCount = lensItemsAndListCount.totalCount;
 
   return {
     props: {
+      lensItemsByKeyword,
       listCount,
       keyword,
+      pageNum,
+      path,
+      blockNum,
     },
   };
 }

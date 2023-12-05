@@ -121,6 +121,7 @@ function Signin() {
   const [isDisabled, setIsDisabled] = useState(true);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     const handleInputChange = () => {
@@ -153,12 +154,13 @@ function Signin() {
       id: idValue,
       password: pwValue,
     });
-    console.log(result);
+    // console.log(result);
 
     if (!result?.error) {
       router.replace("/menu/my-page");
     } else {
-      alert(result.error);
+      // alert(result.error);
+      setErrMsg(result.error);
     }
   }
 
@@ -182,12 +184,38 @@ function Signin() {
           <p>렌즈는 모아보기는 여기서.</p>
         </div>
         <form onSubmit={submitHandler} className="form-container">
-          <div className="input-bx">
-            <span>아이디</span>
-            <input type="text" placeholder="아이디를 입력해주세요" className="id-pw-input" ref={idRef} required />
-            <span>비밀번호</span>
-            <input type="password" placeholder="비밀번호를 입력해주세요" className="id-pw-input" ref={pwRef} required />
-          </div>
+          {errMsg === "" ? (
+            <>
+              <div className="input-bx">
+                <span>아이디</span>
+                <input type="text" placeholder="아이디를 입력해주세요" className="id-pw-input" ref={idRef} required />
+                <span>비밀번호</span>
+                <input
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  className="id-pw-input"
+                  ref={pwRef}
+                  required
+                />
+              </div>{" "}
+            </>
+          ) : (
+            <>
+              <div className="input-bx">
+                <span style={{ fontSize: 13, paddingBottom: 10, color: "#FF687C" }}>{errMsg}</span>
+                <span>아이디</span>
+                <input type="text" placeholder="아이디를 입력해주세요" className="id-pw-input" ref={idRef} required />
+                <span>비밀번호</span>
+                <input
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  className="id-pw-input"
+                  ref={pwRef}
+                  required
+                />
+              </div>
+            </>
+          )}
           <div className="btn-sign-bx">
             <SigninBtnStyle type="submit" value="로그인" disabled={isDisabled} />
             <input

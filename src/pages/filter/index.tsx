@@ -44,7 +44,10 @@ function FilterPage() {
   const stateString = JSON.stringify(queryData);
 
   function filter() {
-    router.push({ pathname: "/filter/results", query: { params: stateString } }, "/filter/results");
+    router.push(
+      { pathname: `/filter/results?params=${stateString}&page=1` },
+      `/filter/results?params=${stateString}&page=1`
+    );
   }
 
   function filterSorting(

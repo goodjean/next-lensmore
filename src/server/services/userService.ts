@@ -27,7 +27,7 @@ export default class UserService {
     const user = await this.userRepo.login(id);
 
     if (!user) {
-      throw new CommonError(404, "NOTFOUND_EXCEPTION", "유저 아이디를 찾을 수 없습니다");
+      throw new CommonError(404, "NOTFOUND_EXCEPTION", "아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다");
     }
 
     const isValid = await verifyPassword(pw, user.password);
@@ -42,7 +42,7 @@ export default class UserService {
   async getUserId(name: string): Promise<IUserId> {
     const res = await this.userRepo.getUserId(name);
     if (!res) {
-      throw new ApiInstance(404, "not found 발생띠service");
+      throw new ApiInstance(404, "not found 발생 service");
     }
 
     return res;

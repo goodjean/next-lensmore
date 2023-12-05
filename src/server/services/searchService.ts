@@ -1,5 +1,5 @@
 import LensRepo from "../repos/lensRepo";
-import { IBestLensItem } from "../type/lens";
+import { IBestLensItem, ILensItemAndCountResult } from "../type/lens";
 import { IHotkeyword } from "../type/search";
 
 export default class SearchService {
@@ -13,8 +13,12 @@ export default class SearchService {
     return HotKeywords;
   }
 
-  async getLensitemListByKeywordByOffset(name: string, page: number, limit: number): Promise<IBestLensItem[]> {
-    const searchLenslist = await this.lensRepo.getLensitemListByKeywordByOffset(name, page, limit);
+  async getListCountAndLensitemListByKeywordByOffset(
+    name: string,
+    page: number,
+    limit: number
+  ): Promise<ILensItemAndCountResult> {
+    const searchLenslist = await this.lensRepo.getListCountAndLensitemListByKeywordByOffset(name, page, limit);
     return searchLenslist;
   }
 

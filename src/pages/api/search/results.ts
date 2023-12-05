@@ -1,13 +1,16 @@
 import SearchService from "@/server/services/searchService";
-import { IBestLensItem } from "@/server/type/lens";
+import { IBestLensItem, ILensItemAndCountResult } from "@/server/type/lens";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  result: IBestLensItem[];
+  result: ILensItemAndCountResult;
 };
 
-export default async function getLensitemListByKeywordByOffset(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function getListCountAndLensitemListByKeywordByOffset(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
   const searchService = new SearchService();
   const { name, page, limit } = req.query;
 
@@ -15,6 +18,6 @@ export default async function getLensitemListByKeywordByOffset(req: NextApiReque
   const pageNum = Number(page);
   const limitNum = Number(limit);
 
-  const result = await searchService.getLensitemListByKeywordByOffset(nameStr, pageNum, limitNum);
+  const result = await searchService.getListCountAndLensitemListByKeywordByOffset(nameStr, pageNum, limitNum);
   res.status(200).json({ result });
 }

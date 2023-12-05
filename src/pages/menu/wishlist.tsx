@@ -14,7 +14,6 @@ function WishListPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       console.log("session", session);
-      alert("로그인이 필요합니다");
       router.replace("/auth/signin");
     }
     if (status === "authenticated") {
