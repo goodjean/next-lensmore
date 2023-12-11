@@ -1,8 +1,11 @@
-import mysql from "mysql2";
-import dbConfig from "../../configs/db";
+// import mysql from "mysql2";
+// import dbConfig from "../../configs/db";
+import MysqlConnection from "../db/mysqlConnection";
 import { IAddLikeEntity, ILikeId, ILikeIdEntity } from "../type/wishlist";
 
-const connection = mysql.createConnection(dbConfig);
+const connection = MysqlConnection.getConnection();
+
+// const connection = mysql.createConnection(dbConfig);
 
 export default class LikeTableRepo {
   getLikeIdListByUserId(userId: string): Promise<ILikeId[]> {

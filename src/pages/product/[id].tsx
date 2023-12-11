@@ -3,8 +3,6 @@ import LensDetailInfoSub from "@/components/lens_detail/LensDetailInfoSub";
 import BackHomeNavBar from "@/components/menu/BackHomeNavBar";
 import LensApi from "@/interfaces/lensApi";
 import { ILensDetail } from "@/types/lens/lens";
-import { useRouter } from "next/router";
-// import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const EmptyBox = styled.div`
@@ -23,8 +21,6 @@ interface DetailParamsProps {
 }
 
 function DetailPage({ lensDetail }: DetailPageProps) {
-  const router = useRouter();
-
   return (
     <>
       <BackHomeNavBar title="Detail" />

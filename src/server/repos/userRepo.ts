@@ -1,5 +1,6 @@
-import mysql from "mysql2";
-import dbConfig from "../../configs/db";
+// import mysql from "mysql2";
+// import dbConfig from "../../configs/db";
+import MysqlConnection from "../db/mysqlConnection";
 import {
   IFoundUser,
   IFoundUserEntity,
@@ -11,7 +12,8 @@ import {
   IUserIdEntity,
 } from "../type/user";
 
-const connection = mysql.createConnection(dbConfig);
+const connection = MysqlConnection.getConnection();
+// const connection = mysql.createConnection(dbConfig);
 
 export default class UserRepo {
   registerUser(id: string, pw: string, name: string): Promise<IRegisterUser[]> {

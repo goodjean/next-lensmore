@@ -96,7 +96,7 @@ function LensDetailInfoSub({ lensDetail }: LensDetailInfoSubProps) {
               lensDetail.brand === "오렌즈"
                 ? "https://o-lens.com/images/common/ico-olens.png"
                 : lensDetail.brand === "렌즈미"
-                ? "https://lens-me.com/web/upload/favicon_20180329132459.ico"
+                ? "https://www.lens-me.com/upload/config/20230802111834_69896318.jpg"
                 : "https://lenstown.co.kr/lenstown/images/favicon.ico"
             }
             alt="brand-icon"
@@ -114,7 +114,7 @@ function LensDetailInfoSub({ lensDetail }: LensDetailInfoSubProps) {
       <div className="detail-desc-container">
         {!lensDetail.detail_img ? (
           <div className="detail-imgs">
-            <img className="detail-img" src={lensDetail.eye_thumbnail} alt="eye" />
+            <img className="detail-img" src={lensDetail.model_thumbnail} alt="eye" />
           </div>
         ) : (
           <div className="detail-imgs">

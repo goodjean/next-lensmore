@@ -28,7 +28,7 @@ const LensItemStyle = styled.div`
   .lens-img {
     width: 100%;
     height: 100%;
-    border-radius: 3px;
+    border-radius: 8px;
   }
 
   .lens-item-desc {
@@ -53,16 +53,18 @@ const LensItemStyle = styled.div`
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14.8px;
+    font-size: 13.8px;
     max-height: 17px;
-    font-weight: bold;
+    font-weight: 600;
+    color: rgb(52, 56, 59);
     @media screen and (max-width: 500px) {
       font-size: 13px;
     }
   }
 
   .lens-item-price {
-    font-size: 14.8px;
+    font-size: 16.8px;
+    font-weight: 600;
     @media screen and (max-width: 500px) {
       font-size: 13px;
     }

@@ -9,6 +9,6 @@ export default class PromotionService {
     // return await this.lensRepo.getPromotionProductByPeriod(period);
     const promotionEntites = await this.lensRepo.getPromotionProductByPeriod(period);
     const promotions = promotionEntites.filter((prom) => prom.model_thumbnail !== undefined);
-    return promotions[21];
+    return promotions[66];
   }
 }

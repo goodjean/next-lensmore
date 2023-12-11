@@ -47,7 +47,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const fullUrl = String(context.req.url);
   const idx = fullUrl.indexOf("%");
   const path = fullUrl.substring(0, idx);
-  console.log("========", path);
   const pageStr = String(page);
   const pageNum = parseInt(pageStr, 10) || 1;
   const blockNum = Math.floor((pageNum - 1) / 3);

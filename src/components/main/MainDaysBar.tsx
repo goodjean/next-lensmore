@@ -15,9 +15,9 @@ const MainDaysBarStyle = styled.li`
     font-weight: bold;
   }
 
-  .on::after {
-    content: "💕";
-  }
+  // .on::after {
+  //   content: "💕";
+  // }
 `;
 
 interface MainDaysBarProps {

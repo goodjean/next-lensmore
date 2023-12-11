@@ -2,7 +2,6 @@ import WishlistApi from "@/interfaces/wishlistApi";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { BsHeartFill, BsHeart } from "react-icons/bs";
 import styled from "styled-components";
 
 const HeartStyle = styled.span`
@@ -11,7 +10,7 @@ const HeartStyle = styled.span`
   padding: 2px;
   position: absolute;
   right: 4px;
-  bottom: 55px;
+  bottom: 62px;
   cursor: pointer;
 `;
 
@@ -59,7 +58,11 @@ function HeartItem({ lensId }: HeartItemProps) {
 
   return (
     <HeartStyle onClick={clickHeart}>
-      {state ? <BsHeartFill color="#DB7093" size={22} /> : <BsHeart color="#DB7093" size={22} />}
+      {state ? (
+        <img src="https://content.zigzag.kr/_icon/card/card_heart_filled.png" alt="하트" width={30} height={30} />
+      ) : (
+        <img src="https://content.zigzag.kr/_icon/card/card_heart_bordered.png" alt="하트" width={30} height={30} />
+      )}
     </HeartStyle>
   );
 }

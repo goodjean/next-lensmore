@@ -41,7 +41,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const path = context.query.params;
   const state = JSON.parse(String(params));
   const [period, color, graphic, price, brand] = state;
-  console.log("context-query ======: ", typeof path);
   const fullUrl = String(context.req.url);
   const idx = fullUrl.indexOf("%");
   const path2 = fullUrl.substring(0, idx);

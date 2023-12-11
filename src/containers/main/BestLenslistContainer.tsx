@@ -15,6 +15,8 @@ const BestLenslistStyle = styled.article`
     border-bottom: 1px solid #e8e8e8;
     padding: 14px 22px;
     font-size: 1.18rem;
+    // font-weight: 400;
+    // color: rgb(52, 56, 59);
     @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
     font-family: "Nanum Gothic", sans-serif;
     letter-spacing: -0.4px;

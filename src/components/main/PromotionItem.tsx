@@ -10,7 +10,7 @@ const PromotionItemStyle = styled.div`
 
   .promotion-img-box {
     width: 100%;
-    height: 740px;
+    height: 660px;
     cursor: pointer;
 
     @media screen and (max-width: 500px) {
