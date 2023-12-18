@@ -10,9 +10,9 @@ export default class SearchApi {
   async getListCountAndLensitemListByKeywordByOffset(
     name: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    const res = await axios.get(`/api/search/results?name=${name}&page=${page}&limit=${limit}`);
+    const res = await axios.get(`/api/search/results?name=${name}&page=${page}&size=${size}`);
     return res.data.result;
   }
 

@@ -1,9 +1,10 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { IBestLensItem } from "@/types/lens/lens";
 import HeartItem from "../layout/HeartItem";
+import Image from "next/image";
 
 const LensItemStyle = styled.div`
   width: 31.5%;
@@ -71,21 +72,50 @@ const LensItemStyle = styled.div`
   }
 `;
 
+const LensImageStyle = styled(Image)`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+`;
+
 interface LenslistItemProps {
   lens: IBestLensItem;
 }
 
 function LenslistItem({ lens }: LenslistItemProps) {
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.5 } // Lazy Loading을 시작할 비율을 조절합니다.
+    );
+
+    const containerElement = containerRef.current;
+    if (containerElement) {
+      observer.observe(containerElement);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   function clickDesc() {
     router.push(`/product/${lens.id}`);
   }
   return (
-    <LensItemStyle>
+    <LensItemStyle ref={containerRef}>
       <Link href={`/product/${lens.id}`} className="img-heart-bx">
         <div className="lens-img-bx">
-          <img src={lens.img} alt="lens-img" className="lens-img" />
+          <LensImageStyle src={lens.img || "/no-image.png"} alt="lens-img" width={100} height={100} loading="lazy" />
         </div>
       </Link>
       <div>

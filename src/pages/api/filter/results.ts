@@ -13,7 +13,7 @@ interface FilterQuery {
   price: string;
   brand: string;
   page: number;
-  limit: number;
+  size: number;
 }
 
 export default async function getListCountAndFilteredLensListByOffset(
@@ -21,7 +21,7 @@ export default async function getListCountAndFilteredLensListByOffset(
   res: NextApiResponse<Data>
 ) {
   const filterService = new FilterService();
-  const { period, color, graphic, price, brand, page, limit } = req.query;
+  const { period, color, graphic, price, brand, page, size } = req.query;
   const periodParse = JSON.parse(period);
   const colorParse = JSON.parse(color);
   const graphicParse = JSON.parse(graphic);
@@ -33,7 +33,7 @@ export default async function getListCountAndFilteredLensListByOffset(
   // const graphicValue = graphic.map((g) => ({ ...g, isPositive: JSON.parse(g.isPositive) }));
   // const priceValue = price.map((p) => ({ ...p, isPositive: JSON.parse(p.isPositive) }));
   const pageNum = Number(page);
-  const limitNum = Number(limit);
+  const sizeNum = Number(size);
 
   const result = await filterService.getListCountAndFilteredLensListByOffset(
     periodParse,
@@ -42,7 +42,7 @@ export default async function getListCountAndFilteredLensListByOffset(
     priceParse,
     brandParse,
     page,
-    limit
+    size
   );
   res.status(200).json({ result });
 }

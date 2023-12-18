@@ -16,9 +16,9 @@ export default class SearchService {
   async getListCountAndLensitemListByKeywordByOffset(
     name: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    const searchLenslist = await this.lensRepo.getListCountAndLensitemListByKeywordByOffset(name, page, limit);
+    const searchLenslist = await this.lensRepo.getListCountAndLensitemListByKeywordByOffset(name, page, size);
     return searchLenslist;
   }
 

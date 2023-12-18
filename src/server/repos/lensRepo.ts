@@ -1,5 +1,7 @@
-import { RowDataPacket } from "mysql2";
+import { RowDataPacket } from "mysql2/promise";
 import MysqlConnection from "../db/mysqlConnection";
+// import mysql from "mysql2";
+// import dbConfig from "../../configs/db";
 import {
   IBrands,
   IBrandsEntity,
@@ -101,88 +103,250 @@ export default class LensRepo {
     });
   }
 
-  getListCountAndFilteredLenslistByOffset(
+  // getListCountAndFilteredLenslistByOffset(
+  //   period: string[],
+  //   color: number[],
+  //   graphic: { min: number; max: number; isPositive: boolean }[],
+  //   price: { min: number; max: number; isPositive: boolean }[],
+  //   brand: number[],
+  //   page: number,
+  //   size: number
+  // ): Promise<ILensItemAndCountResult> {
+  //   console.time("Query Execution Time Sequentially");
+  //   return new Promise((resolve) => {
+  //     if (!graphic[0].isPositive) {
+  //       if (!price[0].isPositive) {
+  //         connection.query<IBestLensItemEntity[]>(
+  //           `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi IN (${period.map(
+  //             (p) => `"${p}"`
+  //           )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //             (b) => `"${b}"`
+  //           )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //             price[0].max
+  //           } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //             graphic[0].max
+  //           } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+  //           (err, lensItems) => {
+  //             if (err) throw err;
+
+  //             connection.query<IBestLensItemEntity[]>(
+  //               `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+  //                 (p) => `"${p}"`
+  //               )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //                 (b) => `"${b}"`
+  //               )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //                 price[0].max
+  //               } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //                 graphic[0].max
+  //               } as unsigned);`,
+  //               (err, rows) => {
+  //                 if (err) throw err;
+
+  //                 const totalCount = rows[0]["COUNT(*)"];
+
+  //                 resolve({ lensItems, totalCount });
+  //               }
+  //             );
+  //           }
+  //         );
+  //       } else {
+  //         ///해야할것 graphic 소수점 고치기, 부정문 긍정문(posi, nega에 따른 between, not between, css, 원래 필터에 옮기기, brand페이지, 혹시 안되면 result페이지에 있는거 다 되돌리기)
+  //         connection.query<IBestLensItemEntity[]>(
+  //           `SELECT id, name, price, img FROM lens WHERE period_classifi IN (${period.map(
+  //             (p) => `"${p}"`
+  //           )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //             (b) => `"${b}"`
+  //           )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //             price[0].max
+  //           } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //             graphic[0].max
+  //           } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+  //           (err, lensItems) => {
+  //             if (err) throw err;
+
+  //             connection.query<IBestLensItemEntity[]>(
+  //               `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+  //                 (p) => `"${p}"`
+  //               )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //                 (b) => `"${b}"`
+  //               )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //                 price[0].max
+  //               } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //                 graphic[0].max
+  //               } as unsigned);`,
+  //               (err, rows) => {
+  //                 if (err) throw err;
+
+  //                 const totalCount = rows[0]["COUNT(*)"];
+
+  //                 resolve({ lensItems, totalCount });
+  //               }
+  //             );
+  //           }
+  //         );
+  //       }
+  //     } else if (!price[0].isPositive) {
+  //       connection.query<IBestLensItemEntity[]>(
+  //         `SELECT id, name, price, img FROM lens WHERE period_classifi IN (${period.map(
+  //           (p) => `"${p}"`
+  //         )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //           (b) => `"${b}"`
+  //         )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //           price[0].max
+  //         } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //           graphic[0].max
+  //         } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+  //         (err, lensItems) => {
+  //           if (err) throw err;
+
+  //           connection.query<IBestLensItemEntity[]>(
+  //             `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+  //               (p) => `"${p}"`
+  //             )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //               (b) => `"${b}"`
+  //             )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //               price[0].max
+  //             } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //               graphic[0].max
+  //             } as unsigned);`,
+  //             (err, rows) => {
+  //               if (err) throw err;
+
+  //               const totalCount = rows[0]["COUNT(*)"];
+
+  //               resolve({ lensItems, totalCount });
+  //             }
+  //           );
+  //         }
+  //       );
+  //     } else {
+  //       connection.query<IBestLensItemEntity[]>(
+  //         `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi IN (${period.map(
+  //           (p) => `"${p}"`
+  //         )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //           (b) => `"${b}"`
+  //         )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //           price[0].max
+  //         } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //           graphic[0].max
+  //         } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+  //         (err, lensItems) => {
+  //           if (err) throw err;
+
+  //           connection.query<IBestLensItemEntity[]>(
+  //             `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+  //               (p) => `"${p}"`
+  //             )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+  //               (b) => `"${b}"`
+  //             )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+  //               price[0].max
+  //             } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+  //               graphic[0].max
+  //             } as unsigned);`,
+  //             (err, rows) => {
+  //               if (err) throw err;
+
+  //               const totalCount = rows[0]["COUNT(*)"];
+  //               console.timeEnd("Query Execution Time Sequentially");
+
+  //               resolve({ lensItems, totalCount });
+  //             }
+  //           );
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
+  async getListCountAndFilteredLenslistByOffset(
     period: string[],
     color: number[],
     graphic: { min: number; max: number; isPositive: boolean }[],
     price: { min: number; max: number; isPositive: boolean }[],
     brand: number[],
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    return new Promise((resolve) => {
-      if (!graphic[0].isPositive) {
-        if (!price[0].isPositive) {
-          connection.query<IBestLensItemEntity[]>(
-            `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi IN (${period.map(
-              (p) => `"${p}"`
-            )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-              (b) => `"${b}"`
-            )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-              price[0].max
-            } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-              graphic[0].max
-            } as unsigned) LIMIT ${limit} OFFSET ${(page - 1) * limit};`,
-            (err, lensItems) => {
-              if (err) throw err;
+    const getLensItemsByNN = () => {
+      return new Promise<IBestLensItemEntity[]>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+          (err, lensItems) => {
+            if (err) throw err;
+            resolve(lensItems);
+          }
+        )
+      );
+    };
 
-              connection.query<IBestLensItemEntity[]>(
-                `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
-                  (p) => `"${p}"`
-                )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-                  (b) => `"${b}"`
-                )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-                  price[0].max
-                } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-                  graphic[0].max
-                } as unsigned);`,
-                (err, rows) => {
-                  if (err) throw err;
+    const getTotalCountByNN = () => {
+      return new Promise<number>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned);`,
+          (err, rows) => {
+            if (err) throw err;
+            resolve(rows[0]["COUNT(*)"]);
+          }
+        )
+      );
+    };
 
-                  const totalCount = rows[0]["COUNT(*)"];
+    const getLensItemsByPN = () => {
+      return new Promise<IBestLensItemEntity[]>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT id, name, price, img FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
+          (err, lensItems) => {
+            if (err) throw err;
+            resolve(lensItems);
+          }
+        )
+      );
+    };
+    const getTotalCountByPN = () => {
+      return new Promise<number>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned);`,
+          (err, rows) => {
+            if (err) throw err;
 
-                  resolve({ lensItems, totalCount });
-                }
-              );
-            }
-          );
-        } else {
-          ///해야할것 graphic 소수점 고치기, 부정문 긍정문(posi, nega에 따른 between, not between, css, 원래 필터에 옮기기, brand페이지, 혹시 안되면 result페이지에 있는거 다 되돌리기)
-          connection.query<IBestLensItemEntity[]>(
-            `SELECT id, name, price, img FROM lens WHERE period_classifi IN (${period.map(
-              (p) => `"${p}"`
-            )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-              (b) => `"${b}"`
-            )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-              price[0].max
-            } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-              graphic[0].max
-            } as unsigned) LIMIT ${limit} OFFSET ${(page - 1) * limit};`,
-            (err, lensItems) => {
-              if (err) throw err;
-
-              connection.query<IBestLensItemEntity[]>(
-                `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
-                  (p) => `"${p}"`
-                )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-                  (b) => `"${b}"`
-                )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-                  price[0].max
-                } as unsigned) AND lens.graphic NOT BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-                  graphic[0].max
-                } as unsigned);`,
-                (err, rows) => {
-                  if (err) throw err;
-
-                  const totalCount = rows[0]["COUNT(*)"];
-
-                  resolve({ lensItems, totalCount });
-                }
-              );
-            }
-          );
-        }
-      } else if (!price[0].isPositive) {
+            resolve(rows[0]["COUNT(*)"]);
+          }
+        )
+      );
+    };
+    const getLensItemsByNP = () => {
+      return new Promise<IBestLensItemEntity[]>((resolve) =>
         connection.query<IBestLensItemEntity[]>(
           `SELECT id, name, price, img FROM lens WHERE period_classifi IN (${period.map(
             (p) => `"${p}"`
@@ -192,31 +356,37 @@ export default class LensRepo {
             price[0].max
           } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
             graphic[0].max
-          } as unsigned) LIMIT ${limit} OFFSET ${(page - 1) * limit};`,
+          } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
           (err, lensItems) => {
             if (err) throw err;
-
-            connection.query<IBestLensItemEntity[]>(
-              `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
-                (p) => `"${p}"`
-              )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-                (b) => `"${b}"`
-              )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-                price[0].max
-              } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-                graphic[0].max
-              } as unsigned);`,
-              (err, rows) => {
-                if (err) throw err;
-
-                const totalCount = rows[0]["COUNT(*)"];
-
-                resolve({ lensItems, totalCount });
-              }
-            );
+            resolve(lensItems);
           }
-        );
-      } else {
+        )
+      );
+    };
+    const getTotalCountByNP = () => {
+      return new Promise<number>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price NOT BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned);`,
+          (err, rows) => {
+            if (err) throw err;
+
+            resolve(rows[0]["COUNT(*)"]);
+          }
+        )
+      );
+    };
+
+    const getLensItemsByPP = () => {
+      return new Promise<IBestLensItemEntity[]>((resolve) =>
         connection.query<IBestLensItemEntity[]>(
           `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi IN (${period.map(
             (p) => `"${p}"`
@@ -226,45 +396,77 @@ export default class LensRepo {
             price[0].max
           } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
             graphic[0].max
-          } as unsigned) LIMIT ${limit} OFFSET ${(page - 1) * limit};`,
+          } as unsigned) LIMIT ${size} OFFSET ${(page - 1) * size};`,
           (err, lensItems) => {
             if (err) throw err;
-
-            connection.query<IBestLensItemEntity[]>(
-              `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
-                (p) => `"${p}"`
-              )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
-                (b) => `"${b}"`
-              )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
-                price[0].max
-              } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
-                graphic[0].max
-              } as unsigned);`,
-              (err, rows) => {
-                if (err) throw err;
-
-                const totalCount = rows[0]["COUNT(*)"];
-
-                resolve({ lensItems, totalCount });
-              }
-            );
+            resolve(lensItems);
           }
-        );
+        )
+      );
+    };
+
+    const getTotalCountByPP = () => {
+      return new Promise<number>((resolve) =>
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT COUNT(*) FROM lens WHERE period_classifi IN (${period.map(
+            (p) => `"${p}"`
+          )}) AND color_id IN (${color.map((c) => `"${c}"`)}) AND brand_id IN (${brand.map(
+            (b) => `"${b}"`
+          )}) AND price BETWEEN cast(${price[0].min} as unsigned) AND cast(${
+            price[0].max
+          } as unsigned) AND lens.graphic BETWEEN cast(${graphic[0].min} as unsigned) AND cast(${
+            graphic[0].max
+          } as unsigned);`,
+          (err, rows) => {
+            if (err) throw err;
+
+            resolve(rows[0]["COUNT(*)"]);
+          }
+        )
+      );
+    };
+
+    if (!graphic[0].isPositive) {
+      if (!price[0].isPositive) {
+        console.time("Query Execution Time");
+        const [lensItems, totalCount] = await Promise.all([getLensItemsByNN(), getTotalCountByNN()]);
+        console.timeEnd("Query Execution Time");
+        return { lensItems, totalCount };
+        //nn
+      } else {
+        ///해야할것 graphic 소수점 고치기, 부정문 긍정문(posi, nega에 따른 between, not between, css, 원래 필터에 옮기기, brand페이지, 혹시 안되면 result페이지에 있는거 다 되돌리기)
+        //pn
+        console.time("Query Execution Time");
+        const [lensItems, totalCount] = await Promise.all([getLensItemsByPN(), getTotalCountByPN()]);
+        console.timeEnd("Query Execution Time");
+        return { lensItems, totalCount };
       }
-    });
+    } else if (!price[0].isPositive) {
+      //np
+      console.time("Query Execution Time");
+      const [lensItems, totalCount] = await Promise.all([getLensItemsByNP(), getTotalCountByNP()]);
+      console.timeEnd("Query Execution Time");
+      return { lensItems, totalCount };
+    } else {
+      //pp
+      console.time("Query Execution Time");
+      const [lensItems, totalCount] = await Promise.all([getLensItemsByPP(), getTotalCountByPP()]);
+      console.timeEnd("Query Execution Time");
+      return { lensItems, totalCount };
+    }
   }
 
   getListCountAndLensitemListByKeywordByOffset(
     name: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
     //promise all
     const query = "%" + name + "%";
     return new Promise((resolve) => {
       connection.query<IBestLensItemEntity[]>(
-        `SELECT id, name, price, img, reviewcount FROM lens WHERE name LIKE ? LIMIT ${limit} OFFSET ${
-          (page - 1) * limit
+        `SELECT id, name, price, img, reviewcount FROM lens WHERE name LIKE ? LIMIT ${size} OFFSET ${
+          (page - 1) * size
         };`,
         [query],
         (err, lensItems) => {
@@ -308,34 +510,61 @@ export default class LensRepo {
     });
   }
 
-  getListCountAndLenslistByPeriodByOffset(
+  async getListCountAndLenslistByPeriodByOffset(
     period: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    return new Promise((resolve) => {
-      connection.query<IBestLensItemEntity[]>(
-        `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi=? LIMIT ${limit} OFFSET ${
-          (page - 1) * limit
-        }`,
-        [period],
-        (err, lensItems) => {
-          if (err) throw err;
+    const getLensItems = () => {
+      return new Promise<IBestLensItemEntity[]>((resolve) => {
+        connection.query<IBestLensItemEntity[]>(
+          `SELECT id, name, price, img, reviewcount FROM lens WHERE period_classifi=? LIMIT ${size} OFFSET ${
+            (page - 1) * size
+          }`,
+          [period],
+          (err, lensItems) => {
+            if (err) throw err;
+            resolve(lensItems);
+          }
+        );
+      });
+    };
 
-          connection.query(
-            `SELECT COUNT(*) FROM lens WHERE period_classifi=?`,
-            [period],
-            (err, rows: RowDataPacket[]) => {
-              if (err) throw err;
+    const getTotalCount = () => {
+      return new Promise<number>((resolve) => {
+        connection.query(
+          `SELECT COUNT(*) FROM lens WHERE period_classifi=?`,
+          [period],
+          (err, rows: RowDataPacket[]) => {
+            if (err) throw err;
+            resolve(rows[0]["COUNT(*)"]);
+          }
+        );
+      });
+    };
 
-              const totalCount = rows[0]["COUNT(*)"];
+    try {
+      console.time("Query Execution Time");
 
-              resolve({ lensItems, totalCount });
-            }
-          );
-        }
-      );
-    });
+      const [lensItems, totalCount] = await Promise.all([
+        getLensItems(),
+        getTotalCount(),
+        // getLensItems(),
+        // getLensItems(),
+        // getLensItems(),
+      ]);
+      // const lensItems = await getLensItems();
+      // const totalCount = await getTotalCount();
+      // const lensItems1 = await getLensItems();
+      // const lensItems2 = await getLensItems();
+      // const lensItems3 = await getLensItems();
+
+      console.timeEnd("Query Execution Time");
+
+      return { lensItems, totalCount };
+    } catch (error) {
+      throw error;
+    }
   }
 
   getLenslistByPeriod(period: string): Promise<number> {

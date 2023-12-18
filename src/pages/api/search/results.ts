@@ -12,12 +12,12 @@ export default async function getListCountAndLensitemListByKeywordByOffset(
   res: NextApiResponse<Data>
 ) {
   const searchService = new SearchService();
-  const { name, page, limit } = req.query;
+  const { name, page, size } = req.query;
 
   const nameStr = String(name);
   const pageNum = Number(page);
-  const limitNum = Number(limit);
+  const sizeNum = Number(size);
 
-  const result = await searchService.getListCountAndLensitemListByKeywordByOffset(nameStr, pageNum, limitNum);
+  const result = await searchService.getListCountAndLensitemListByKeywordByOffset(nameStr, pageNum, sizeNum);
   res.status(200).json({ result });
 }

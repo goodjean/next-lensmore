@@ -8,11 +8,11 @@ type Data = {
 
 export default async function getListCountAndLenslistByPeriodByOffset(req: NextApiRequest, res: NextApiResponse<Data>) {
   const lensService = new LensService();
-  const { period, page, limit } = req.query;
+  const { period, page, size } = req.query;
   const periodStr = String(period);
   const pageNum = Number(page);
-  const limitNum = Number(limit);
+  const sizeNum = Number(size);
 
-  const result = await lensService.getListCountAndLenslistByPeriodByOffset(periodStr, pageNum, limitNum);
+  const result = await lensService.getListCountAndLenslistByPeriodByOffset(periodStr, pageNum, sizeNum);
   res.status(200).json({ result });
 }

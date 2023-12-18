@@ -1,12 +1,10 @@
 import BackHomeNavBar from "@/components/menu/BackHomeNavBar";
 import LensResultListContainer from "@/containers/global/LensResultListContainer";
-import PaginationList from "@/containers/global/PaginationList";
 import PaginationListForFilter from "@/containers/global/PaginationListForFilter";
 import FilterApi from "@/interfaces/filterApi";
-import { IBestLensItem, IisPositiveCondi } from "@/types/lens/lens";
+import { IBestLensItem } from "@/types/lens/lens";
 import { GetServerSidePropsContext } from "next";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const FilterResultPageStyle = styled.div`

@@ -11,7 +11,7 @@ export default class FilterService {
     price: { min: number; max: number; isPositive: boolean }[],
     brand: number[],
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
     const lensItemsAndCount = await this.lensRepo.getListCountAndFilteredLenslistByOffset(
       period,
@@ -20,7 +20,7 @@ export default class FilterService {
       price,
       brand,
       page,
-      limit
+      size
     );
     return lensItemsAndCount;
   }

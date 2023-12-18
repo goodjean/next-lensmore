@@ -9,12 +9,12 @@ export default class FilterApi {
     price: IisPositiveCondi[],
     brand: number[],
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
     const res = await axios.get(
       `/api/filter/results?period=${JSON.stringify(period)}&color=${JSON.stringify(color)}&graphic=${JSON.stringify(
         graphic
-      )}&price=${JSON.stringify(price)}&brand=${JSON.stringify(brand)}&page=${page}&limit=${limit}`
+      )}&price=${JSON.stringify(price)}&brand=${JSON.stringify(brand)}&page=${page}&size=${size}`
     );
     return res.data.result;
   }

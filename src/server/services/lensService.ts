@@ -30,9 +30,9 @@ export default class LensService {
   async getListCountAndLenslistByPeriodByOffset(
     period: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    return await this.lensRepo.getListCountAndLenslistByPeriodByOffset(period, page, limit);
+    return await this.lensRepo.getListCountAndLenslistByPeriodByOffset(period, page, size);
   }
 
   async getLenslistByPeriod(period: string): Promise<number> {

@@ -26,9 +26,9 @@ export default class LensApi {
   async getListCountAndLenslistByPeriodByOffset(
     period: string,
     page: number,
-    limit: number
+    size: number
   ): Promise<ILensItemAndCountResult> {
-    const res = await axios.get(`/api/lens/results?period=${period}&page=${page}&limit=${limit}`);
+    const res = await axios.get(`/api/lens/results?period=${period}&page=${page}&size=${size}`);
     return res.data.result;
   }
 
