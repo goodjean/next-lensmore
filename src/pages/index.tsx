@@ -2,7 +2,8 @@ import MainBestLensByBrandContainer from "@/containers/main/MainBestLensByBrandC
 import MainHeaderContainer from "@/containers/main/MainHeaderContainer";
 import MainPromotionContainer from "@/containers/main/MainPromotionContainer";
 import LensApi from "@/interfaces/lensApi";
-import { IBrands } from "@/types/lens/lens";
+import { IBrands, IDays } from "@/types/lens/lens";
+import { GetServerSidePropsContext } from "next";
 // import LensApi from "@/interfaces/lensApi";
 import { useEffect, useState } from "react";
 

@@ -87,17 +87,31 @@ function LenslistItem({ lens }: LenslistItemProps) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // useEffect(() => {
+  //   const onScroll = () => {
+  //     if (window.scrollY <= 120) {
+  //       setIsVisible(true);
+  //     }
+  //   };
+  //   window.addEventListener("scroll", onScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", onScroll);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            console.log(entry.isIntersecting);
             setIsVisible(true);
             observer.disconnect();
           }
         });
       },
-      { threshold: 0.5 } // Lazy Loading을 시작할 비율을 조절합니다.
+      { threshold: 0.5 }
     );
 
     const containerElement = containerRef.current;
@@ -115,7 +129,13 @@ function LenslistItem({ lens }: LenslistItemProps) {
     <LensItemStyle ref={containerRef}>
       <Link href={`/product/${lens.id}`} className="img-heart-bx">
         <div className="lens-img-bx">
-          <LensImageStyle src={lens.img || "/no-image.png"} alt="lens-img" width={100} height={100} loading="lazy" />
+          <LensImageStyle
+            src={lens.img || "/no-image.png"}
+            alt="lens-img"
+            width={100}
+            height={100}
+            loading={isVisible ? "eager" : "lazy"}
+          />
         </div>
       </Link>
       <div>

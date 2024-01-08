@@ -28,7 +28,7 @@ function LensByPeriodPage({ lensItemsByPeriod, listCount, period, pageNum, path,
       <LensByPeriodPageStyle>
         <LensResultListContainer lensList={lensItemsByPeriod} listCount={listCount} />
         <PaginationList
-          limit={100}
+          limit={30}
           page={pageNum}
           blockNum={blockNum}
           listCount={listCount}
@@ -50,7 +50,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const blockNum = Math.floor((pageNum - 1) / 3);
 
   const lensApi = new LensApi();
-  const ListCountAndLensItems = await lensApi.getListCountAndLenslistByPeriodByOffset(String(period), pageNum, 100);
+  const ListCountAndLensItems = await lensApi.getListCountAndLenslistByPeriodByOffset(String(period), pageNum, 30);
   const lensItemsByPeriod = ListCountAndLensItems.lensItems;
   const listCount = ListCountAndLensItems.totalCount;
 
