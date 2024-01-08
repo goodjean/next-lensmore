@@ -1,38 +1,98 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app --typescript`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Introduce
 
-First, run the development server:
+- 오렌즈, 렌즈미, 렌즈타운 3사 브랜드의 렌즈 정보를 볼 수 있는 통합 렌즈사이트.
+- Next.js, styled-components가 사용되었다.
+- 각기 다른 브랜드의 렌즈 정보를 취합하여 한눈에 직관적으로 비교할 수 있도록 한 서비스이다.
+
+
+## Requirement
+
+- 프로젝트의 루트 경로에 있는 **lens-ddl-dml.sql** 파일을 **mysql** 에서 실행합니다.
+```bash
+source path/to/lens-ddl-dml.sql;
+```
+
+
+## Install
+
+```bash
+npm install
+```
+
+## Run Development Mode
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setting Environment Variables
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+프로젝트를 실행하기 위해서는 MySQL 연결 정보를 설정해야 합니다.
+아래와 같이 `.env.local` 파일을 생성하고, MySQL 연결 정보를 추가하세요.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. 프로젝트 루트 디렉토리에 `.env.local` 파일을 생성합니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+2. `.env.local` 파일에 다음과 같이 MySQL 연결 정보를 추가합니다:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  ```dotenv
+   DB_HOST=your_mysql_host
+   DB_USER=your_mysql_user
+   DB_PASSWORD=your_mysql_password
+   DB_DATABASE=your_mysql_database
+```
 
-## Learn More
+## Page Description
 
-To learn more about Next.js, take a look at the following resources:
+#### Main Page
+- 프로모션 진행중인 렌즈
+- 착용기간, 브랜드별 베스트 상품
+- TS Sample: [pages/index.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/index.tsx)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Search Page
+- 인기검색어 순위
+- 검색창
+- TS Sample: [pages/search/index.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/search/index.tsx)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Detail Page
+- 렌즈 디테일 정보
+- TS Sample: [pages/product/id](https://github.com/goodjean/next-lensmore/blob/main/src/pages/product/%5Bid%5D.tsx)
 
-## Deploy on Vercel
+#### Filter Page
+- 필터링 조건 선택
+- 다중 선택 가능
+- TS Sample: [pages/filter/index.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/filter/index.tsx)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Brand Page
+- 각 브랜드 정보
+- 해당 브랜드 페이지로 가는 링크
+- TS Sample: [pages/menu/brand.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/menu/brand.tsx)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Period Page
+- 착용 기간별 렌즈 정보
+- 하루착용, 2주/한달착용, 장기착용
+- TS Sample: [pages/menu/all-products/index.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/menu/all-products/index.tsx)
+
+#### WishList Page
+- 찜한 상품
+- 찜목록 전체 삭제하기
+- TS Sample: [pages/menu/my-page.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/menu/my-page.tsx)
+
+#### SignIn/SignUp Page
+- 회원가입하기
+- 로그인하기
+- 로그아웃
+- TS Sample:
+  - 로그인 [pages/auth/signin.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/auth/signin.tsx)
+  - 회원가입 [pages/auth/signup.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/auth/signup.tsx)
+#### Result Page
+- 필터링된 렌즈 
+- 검색된 렌즈 
+- 착용 기간별 렌즈
+- TS Sample:
+  - 검색 [pages/search/results/keyword.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/search/results/%5Bkeyword%5D.tsx)
+  - 필터 [pages/filter/results.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/filter/results.tsx)
+  - 착용 기간 [pages/menu/all-products/period.tsx](https://github.com/goodjean/next-lensmore/blob/main/src/pages/menu/all-products/%5Bperiod%5D.tsx)
+
+
