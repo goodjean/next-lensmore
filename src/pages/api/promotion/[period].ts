@@ -4,7 +4,7 @@ import { IPromotion } from "@/server/type/promotion";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  result: IPromotion;
+  result: IPromotion | undefined;
 };
 
 export default async function promotionItem(req: NextApiRequest, res: NextApiResponse<Data>) {
