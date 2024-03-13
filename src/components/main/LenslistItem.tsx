@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { IBestLensItem } from "@/types/lens/lens";
@@ -12,10 +12,6 @@ const LensItemStyle = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-
-  // .img-heart-bx {
-  //   position: relative;
-  // }
 
   .lens-img-bx {
     width: 100%;
@@ -84,49 +80,36 @@ interface LenslistItemProps {
 
 function LenslistItem({ lens }: LenslistItemProps) {
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const [isVisible, setIsVisible] = useState(false);
+  // const containerRef = useRef<HTMLDivElement>(null);
 
   // useEffect(() => {
-  //   const onScroll = () => {
-  //     if (window.scrollY <= 120) {
-  //       setIsVisible(true);
-  //     }
-  //   };
-  //   window.addEventListener("scroll", onScroll);
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           console.log(entry.isIntersecting);
+  //           setIsVisible(true);
+  //           observer.disconnect();
+  //         }
+  //       });
+  //     },
+  //     { threshold: 0.5 }
+  //   );
 
-  //   return () => {
-  //     window.removeEventListener("scroll", onScroll);
-  //   };
+  //   const containerElement = containerRef.current;
+  //   if (containerElement) {
+  //     observer.observe(containerElement);
+  //   }
+
+  //   return () => observer.disconnect();
   // }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            console.log(entry.isIntersecting);
-            setIsVisible(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    const containerElement = containerRef.current;
-    if (containerElement) {
-      observer.observe(containerElement);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   function clickDesc() {
     router.push(`/product/${lens.id}`);
   }
   return (
-    <LensItemStyle ref={containerRef}>
+    <LensItemStyle>
       <Link href={`/product/${lens.id}`} className="img-heart-bx">
         <div className="lens-img-bx">
           <LensImageStyle
@@ -134,7 +117,7 @@ function LenslistItem({ lens }: LenslistItemProps) {
             alt="lens-img"
             width={100}
             height={100}
-            loading={isVisible ? "eager" : "lazy"}
+            unoptimized={true}
           />
         </div>
       </Link>
