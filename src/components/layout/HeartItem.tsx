@@ -49,8 +49,9 @@ function HeartItem({ lensId }: HeartItemProps) {
         // 로그인이 되어있다면 서버로 wishlist id 추가 or 삭제 가능하고 그에 대한 wishlistid 목록 가져와서 잇는지 없는지 비교
         const wishlistApi = new WishlistApi();
         const userId = session.user?.email;
+        const userIdStr = String(userId);
         if (session.user?.email) {
-          const result = await wishlistApi.addLike(userId, lensId);
+          const result = await wishlistApi.addLike(userIdStr, lensId);
           setState(result);
         }
       }
