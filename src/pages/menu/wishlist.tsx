@@ -25,7 +25,7 @@ function WishListPage() {
         }
       })();
     }
-  }, [status, lenslist]);
+  }, [status]);
 
   return (
     <>

@@ -18,7 +18,7 @@ export default class WishlistService {
   async addLike(userId: string, lensId: number): Promise<boolean> {
     const likeIds = await this.likeTableRepo.getLikeIdListByUserId(userId);
 
-    if (!likeIds) {
+    if (likeIds.length === 0) {
       await this.likeTableRepo.addLike(userId, lensId);
       return true;
     }

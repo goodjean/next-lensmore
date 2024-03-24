@@ -9,11 +9,12 @@ type Data = {
 };
 
 export default async function bookmark(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const session = await getSession({ req });
-  const userId = session?.user?.email;
-  const userIdStr = String(userId);
+  // const session = await getSession({ req });
+  // const userId = session?.user?.email;
+  // const userIdStr = String(userId);
   const wishlistService = new WishlistService();
-  const { lensId } = req.body;
+  const { userId, lensId } = req.body;
+  const userIdStr = String(userId);
   const lensIdNum = Number(lensId);
 
   const result = await wishlistService.addLike(userIdStr, lensIdNum);

@@ -7,8 +7,8 @@ export default class WishlistApi {
     return res.data.result;
   }
 
-  async addLike(lensId: number): Promise<boolean> {
-    const res = await axios.post(`/api/wishlist/bookmark`, { lensId });
+  async addLike(userId: string, lensId: number): Promise<boolean> {
+    const res = await axios.post(`/api/wishlist/bookmark`, { userId, lensId });
     return res.data.result;
   }
 
