@@ -5,8 +5,10 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://lensmore.store" />
         <meta property="og:title" content="렌모어" />
-        <meta property="og:description" content="다양한 브랜드의 렌즈를 한 눈에! 렌즈모어는 " />
+        <meta property="og:description" content="다양한 브랜드의 렌즈를 한 눈에" />
         <meta property="og:image" content="/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="600" />

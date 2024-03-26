@@ -6,6 +6,7 @@ import { IBestLensItem } from "@/types/lens/lens";
 import styled from "styled-components";
 import LensApi from "@/interfaces/lensApi";
 import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const LensByPeriodPageStyle = styled.div`
   width: 100%;
@@ -19,14 +20,23 @@ interface LensByPeriodPageProps {
   pageNum: number;
   path: string;
   blockNum: number;
+  wishlist: IBestLensItem[];
 }
 
-function LensByPeriodPage({ lensItemsByPeriod, listCount, period, pageNum, path, blockNum }: LensByPeriodPageProps) {
+function LensByPeriodPage({
+  lensItemsByPeriod,
+  listCount,
+  period,
+  pageNum,
+  path,
+  blockNum,
+  wishlist,
+}: LensByPeriodPageProps) {
   return (
     <>
       <BackHomeNavBar title={period} />
       <LensByPeriodPageStyle>
-        <LensResultListContainer lensList={lensItemsByPeriod} listCount={listCount} />
+        <LensResultListContainer lensList={lensItemsByPeriod} listCount={listCount} wishlist={wishlist} />
         <PaginationList
           limit={30}
           page={pageNum}
@@ -42,6 +52,9 @@ function LensByPeriodPage({ lensItemsByPeriod, listCount, period, pageNum, path,
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { period, page } = context.query;
+  const session = await getSession(context);
+  const email = session?.user?.email;
+  const emailStr = String(email);
   const fullUrl = String(context.req.url);
   const idx = fullUrl.indexOf("%");
   const path = fullUrl.substring(0, idx);
@@ -51,6 +64,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const lensApi = new LensApi();
   const ListCountAndLensItems = await lensApi.getListCountAndLenslistByPeriodByOffset(String(period), pageNum, 30);
+  const wishlist = await lensApi.getWishListForPeriodPage(emailStr);
   const lensItemsByPeriod = ListCountAndLensItems.lensItems;
   const listCount = ListCountAndLensItems.totalCount;
 
@@ -62,6 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       pageNum,
       path,
       blockNum,
+      wishlist,
     },
   };
 }

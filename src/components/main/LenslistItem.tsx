@@ -76,9 +76,10 @@ const LensImageStyle = styled(Image)`
 
 interface LenslistItemProps {
   lens: IBestLensItem;
+  wishlist: IBestLensItem[];
 }
 
-function LenslistItem({ lens }: LenslistItemProps) {
+function LenslistItem({ lens, wishlist }: LenslistItemProps) {
   const router = useRouter();
   // const [isVisible, setIsVisible] = useState(false);
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -126,7 +127,7 @@ function LenslistItem({ lens }: LenslistItemProps) {
           <span className="lens-item-name">{lens.name}</span>
           <span className="lens-item-price">{lens.price.toLocaleString()}원</span>
         </div>
-        <HeartItem lensId={lens.id} />
+        <HeartItem lensId={lens.id} wishlist={wishlist} />
       </div>
     </LensItemStyle>
   );

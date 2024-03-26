@@ -36,9 +36,10 @@ const BestLenslistStyle = styled.article`
 interface BestLenslistContainerProps {
   period: string;
   brand: IBrands;
+  wishlist: IBestLensItem[];
 }
 
-function BestLenslistContainer({ period, brand }: BestLenslistContainerProps) {
+function BestLenslistContainer({ period, brand, wishlist }: BestLenslistContainerProps) {
   const [lenslist, setLenslist] = useState<IBestLensItem[] | undefined>([]);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ function BestLenslistContainer({ period, brand }: BestLenslistContainerProps) {
       <div className="brand-best-name">{`${brand.ko_name} 베스트`}</div>
       <div className="brand-best-list">
         {lenslist?.map((lens) => (
-          <LenslistItem key={lens.id} lens={lens} />
+          <LenslistItem key={lens.id} lens={lens} wishlist={wishlist} />
         ))}
       </div>
     </BestLenslistStyle>

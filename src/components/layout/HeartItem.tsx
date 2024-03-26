@@ -1,4 +1,5 @@
 import WishlistApi from "@/interfaces/wishlistApi";
+import { IBestLensItem } from "@/types/lens/lens";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -16,18 +17,19 @@ const HeartStyle = styled.span`
 
 interface HeartItemProps {
   lensId: number;
+  wishlist: IBestLensItem[];
 }
 
-function HeartItem({ lensId }: HeartItemProps) {
+function HeartItem({ lensId, wishlist }: HeartItemProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [state, setState] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      const wishlistApi = new WishlistApi();
+      // const wishlistApi = new WishlistApi();
       if (session?.user?.email) {
-        const wishlist = await wishlistApi.getWishList();
+        // const wishlist = await wishlistApi.getWishList();
         if (wishlist.some((item) => item.id === lensId)) {
           setState(true);
         } else {

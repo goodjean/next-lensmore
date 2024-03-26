@@ -18,4 +18,9 @@ export default class FilterApi {
     );
     return res.data.result;
   }
+
+  async getWishListForFilterPage(id: string): Promise<IBestLensItem[]> {
+    const res = await axios.post(`/api/wishlist/wishListIds`, { id });
+    return res.data.result;
+  }
 }

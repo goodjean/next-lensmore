@@ -20,4 +20,9 @@ export default class SearchApi {
     const res = await axios.get(`/api/search/count?name=${name}`);
     return res.data.result;
   }
+
+  async getWishListForSearchPage(id: string): Promise<IBestLensItem[]> {
+    const res = await axios.post(`/api/wishlist/wishListIds`, { id });
+    return res.data.result;
+  }
 }

@@ -41,9 +41,10 @@ const LensResultListStyle = styled.div`
 interface LensResultListContainerProps {
   lensList: IBestLensItem[];
   listCount: number;
+  wishlist: IBestLensItem[];
 }
 
-function LensResultListContainer({ lensList, listCount }: LensResultListContainerProps) {
+function LensResultListContainer({ lensList, listCount, wishlist }: LensResultListContainerProps) {
   return (
     <>
       {lensList.length === 0 ? (
@@ -58,7 +59,7 @@ function LensResultListContainer({ lensList, listCount }: LensResultListContaine
           <span className="result-count">{`전체 검색 결과 (${listCount})`}</span>
           <ul className="lenslist-container">
             {lensList.map((lens) => (
-              <LenslistItem key={lens.id} lens={lens} />
+              <LenslistItem key={lens.id} lens={lens} wishlist={wishlist} />
             ))}
           </ul>
         </LensResultListStyle>

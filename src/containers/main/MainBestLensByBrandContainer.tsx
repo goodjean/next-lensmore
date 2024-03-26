@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BestLenslistContainer from "./BestLenslistContainer";
 import styled from "styled-components";
-import { IBrands } from "@/types/lens/lens";
+import { IBestLensItem, IBrands } from "@/types/lens/lens";
+import WishlistApi from "@/interfaces/wishlistApi";
 
 const MainBestLensStyle = styled.section`
   width: 100%;
@@ -18,10 +19,20 @@ interface MainBestLensProps {
 }
 
 function MainBestLensByBrandContainer({ period, brands }: MainBestLensProps) {
+  const [wishlist, setWishlist] = useState<IBestLensItem[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const wishlistApi = new WishlistApi();
+      const wishlist = await wishlistApi.getWishList();
+      setWishlist(wishlist);
+    })();
+  }, []);
+
   return (
     <MainBestLensStyle>
       {brands.map((brand) => (
-        <BestLenslistContainer key={brand.id} period={period} brand={brand} />
+        <BestLenslistContainer key={brand.id} period={period} brand={brand} wishlist={wishlist} />
       ))}
     </MainBestLensStyle>
   );

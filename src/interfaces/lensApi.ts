@@ -36,4 +36,9 @@ export default class LensApi {
     const res = await axios.get(`/api/lens/all-results?period=${period}`);
     return res.data.result;
   }
+
+  async getWishListForPeriodPage(id: string): Promise<IBestLensItem[]> {
+    const res = await axios.post(`/api/wishlist/wishListIds`, { id });
+    return res.data.result;
+  }
 }

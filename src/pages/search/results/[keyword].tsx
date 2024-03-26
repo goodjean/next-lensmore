@@ -6,6 +6,7 @@ import { IBestLensItem } from "@/types/lens/lens";
 import styled from "styled-components";
 import PaginationList from "@/containers/global/PaginationList";
 import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 const SearchResultPageStyle = styled.div`
   width: 100%;
@@ -21,14 +22,23 @@ interface SearchResultPageProps {
   pageNum: number;
   path: string;
   blockNum: number;
+  wishlist: IBestLensItem[];
 }
 
-function SearchResultPage({ lensItemsByKeyword, listCount, keyword, pageNum, path, blockNum }: SearchResultPageProps) {
+function SearchResultPage({
+  lensItemsByKeyword,
+  listCount,
+  keyword,
+  pageNum,
+  path,
+  blockNum,
+  wishlist,
+}: SearchResultPageProps) {
   return (
     <>
       <BackHomeNavBar title="result" />
       <SearchResultPageStyle>
-        <LensResultListContainer lensList={lensItemsByKeyword} listCount={listCount} />
+        <LensResultListContainer lensList={lensItemsByKeyword} listCount={listCount} wishlist={wishlist} />
         <PaginationList
           limit={9}
           page={pageNum}
@@ -44,6 +54,9 @@ function SearchResultPage({ lensItemsByKeyword, listCount, keyword, pageNum, pat
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { keyword, page } = context.query;
+  const session = await getSession(context);
+  const email = session?.user?.email;
+  const emailStr = String(email);
   const fullUrl = String(context.req.url);
   const idx = fullUrl.indexOf("%");
   const path = fullUrl.substring(0, idx);
@@ -57,6 +70,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     pageNum,
     9
   );
+  const wishlist = await searchApi.getWishListForSearchPage(emailStr);
   const lensItemsByKeyword = lensItemsAndListCount.lensItems;
   const listCount = lensItemsAndListCount.totalCount;
 
@@ -68,6 +82,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       pageNum,
       path,
       blockNum,
+      wishlist,
     },
   };
 }

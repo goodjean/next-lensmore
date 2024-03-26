@@ -103,7 +103,7 @@ function WishListContainer({ lenslist, setLenslist }: WishListContainerProps) {
           </div>
           <ul className="lenslist-container">
             {lenslist.map((lens) => (
-              <LenslistItem key={lens.id} lens={lens} />
+              <LenslistItem key={lens.id} lens={lens} wishlist={lenslist} />
             ))}
           </ul>
           <button className="all-delete" onClick={deleteAllWishList}>
